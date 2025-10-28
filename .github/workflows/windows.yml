@@ -115,25 +115,25 @@ jobs:
           "Authorization" = "Bearer ${{ env.ACCESS_TOKEN }}"
         }
         $response = Invoke-RestMethod -Uri "https://www.googleapis.com/drive/v3/files" -Method Get -Headers $headers
-        $ArtCrushFile = $response.files | Where-Object { $_.name -eq "ArtCrush.zip" } | Select-Object -First 1
-        if ($ArtCrushFile) {
-          Write-Output "::add-mask::$($ArtCrushFile.id)"
-          Add-Content -Path $env:GITHUB_ENV -Value "UPLOADED_FILEID=$($ArtCrushFile.id)"
+        $CubqTRCFile = $response.files | Where-Object { $_.name -eq "CubqTRC.zip" } | Select-Object -First 1
+        if ($CubqTRCFile) {
+          Write-Output "::add-mask::$($CubqTRCFile.id)"
+          Add-Content -Path $env:GITHUB_ENV -Value "UPLOADED_FILEID=$($CubqTRCFile.id)"
         }
 
     - name: Zip it and Upload Google Drive
       if: env.hashes_are_same == 'false'
       run: |
-        Compress-Archive -Path ${{ inputs.branch }}/export/release/windows/bin -DestinationPath ArtCrush.zip -Update
+        Compress-Archive -Path ${{ inputs.branch }}/export/release/windows/bin -DestinationPath CubqTRC.zip -Update
         $headers = @{
           "Authorization" = "Bearer ${{ env.ACCESS_TOKEN }}"
           "Content-Type" = "multipart/related; boundary=boundary"
         }
         $metadata = @{
-          name="ArtCrush.zip"
+          name="CubqTRC.zip"
         } | ConvertTo-Json
         
-        $fileBytes = [System.IO.File]::ReadAllBytes("ArtCrush.zip");
+        $fileBytes = [System.IO.File]::ReadAllBytes("CubqTRC.zip");
         $body = @(
           "--boundary",
           "Content-Type: application/json; charset=UTF-8",
