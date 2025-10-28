@@ -92,7 +92,7 @@ jobs:
     - uses: krdlab/setup-haxe@master
       if: env.hashes_are_same == 'false'
       with:
-        haxe-version: 4.3.6
+        haxe-version: 4.3.7
         
     - name: Install Haxelib
       if: env.hashes_are_same == 'false'
@@ -100,7 +100,7 @@ jobs:
         cd ${{ inputs.branch }}
         haxelib setup C:/haxelib
         haxelib install hxcpp --quiet --global
-        .\setup\windows.bat
+        .\building\setup-windows.bat
     
     - name: Compile
       if: env.hashes_are_same == 'false'
